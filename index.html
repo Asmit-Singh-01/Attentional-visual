@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attention Phase Transition HUD Engine</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- MathJax for High-Level Complex LaTeX Rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <!-- Top Header -->
+    <header class="hud-header">
+        <h1 class="glow-text">⚡ NEURAL ATTENTION PHASE TRANSITION ENGINE</h1>
+        <p class="sub-text">IRIS NATIONAL FAIR 2026-2027 | REAL-TIME QUANTUM-LIKE MATRIX PIPELINE</p>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="main-container">
+        
+        <!-- Left 70%: Live 60 FPS Animated Visual Canvas -->
+        <div class="canvas-wrapper">
+            <canvas id="simCanvas"></canvas>
+            
+            <!-- Bottom Math & Telemetry Overlay -->
+            <div class="math-hud-panel" id="mathHUD">
+                <div id="stageTitle" class="stage-title">SYSTEM INITIALIZATION...</div>
+                <div id="mathEquation" class="math-eq">\[ S_{ij} = \frac{\mathbf{q}_i^\top \mathbf{k}_j}{\sqrt{d_{head}}} \]</div>
+                <div id="liveMetrics" class="metrics-log">> System Load: Initializing...</div>
+            </div>
+        </div>
+
+        <!-- Right 30%: Termux / Hacker Matrix Log Terminal -->
+        <div class="terminal-wrapper">
+            <div class="terminal-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="term-title">root@stark-core:~# ./run_pipeline.sh</span>
+            </div>
+            <div class="terminal-body" id="termLog">
+                <!-- Live Termux Scrolling Text Stream -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Floating Trigger Button -->
+    <button id="startBtn" class="cyber-btn">▶ LAUNCH 40S FULL HUD PIPELINE</button>
+
+    <script src="simulation.js"></script>
+</body>
+  </html>
+  
