@@ -16,36 +16,60 @@ body {
 
 .hud-header {
     text-align: center;
-    padding: 10px;
-    background: rgba(10, 10, 20, 0.8);
+    padding: 6px 12px;
+    background: rgba(10, 10, 20, 0.9);
     border-bottom: 1px solid #00ffa3;
+    display: flex;
+    justify: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10;
 }
 
 .glow-text {
     color: #ffffff;
-    font-size: 22px;
-    letter-spacing: 2px;
-    text-shadow: 0 0 10px #00ffa3;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px #00ffa3;
+    margin: 0;
 }
 
 .sub-text {
     color: #00ffa3;
-    font-size: 11px;
-    margin-top: 2px;
+    font-size: 9px;
+    margin-top: 1px;
+}
+
+.cyber-btn {
+    position: relative;
+    top: 0;
+    right: 0;
+    background: #00ffa3;
+    color: #000;
+    border: none;
+    padding: 6px 12px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0 0 10px #00ffa3;
+    white-space: nowrap;
 }
 
 .main-container {
     display: flex;
     flex: 1;
     width: 100%;
-    height: calc(100vh - 110px);
+    height: calc(100vh - 45px);
 }
 
 .canvas-wrapper {
-    width: 70%;
+    width: 68%;
     position: relative;
     border-right: 1px solid #1a1a3a;
     background: radial-gradient(circle at center, #0a0a1a 0%, #030308 100%);
+    display: flex;
+    flex-direction: column;
 }
 
 #simCanvas {
@@ -54,39 +78,37 @@ body {
     display: block;
 }
 
-/* Bottom Math HUD Overlay */
 .math-hud-panel {
     position: absolute;
-    bottom: 15px;
-    left: 15px;
-    right: 15px;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
     background: rgba(5, 5, 15, 0.92);
-    border: 2px solid #00ffa3;
-    border-radius: 8px;
-    padding: 12px;
-    box-shadow: 0 0 15px rgba(0, 255, 163, 0.2);
+    border: 1.5px solid #00ffa3;
+    border-radius: 6px;
+    padding: 6px 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 163, 0.2);
 }
 
 .stage-title {
-    font-size: 16px;
+    font-size: 11px;
     font-weight: bold;
     color: #00ffa3;
 }
 
 .math-eq {
-    font-size: 18px;
+    font-size: 13px;
     color: #ffffff;
-    margin: 5px 0;
+    margin: 2px 0;
 }
 
 .metrics-log {
-    font-size: 12px;
+    font-size: 9px;
     color: #00e5ff;
 }
 
-/* Termux / Hacker Terminal Window */
 .terminal-wrapper {
-    width: 30%;
+    width: 32%;
     background-color: #05050a;
     display: flex;
     flex-direction: column;
@@ -95,16 +117,16 @@ body {
 
 .terminal-header {
     background: #101020;
-    padding: 8px;
+    padding: 6px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     border-bottom: 1px solid #222;
 }
 
 .dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
 }
 .red { background: #ff5f56; }
@@ -112,36 +134,17 @@ body {
 .green { background: #27c93f; }
 
 .term-title {
-    font-size: 11px;
+    font-size: 9px;
     color: #aaa;
-    margin-left: 5px;
+    margin-left: 4px;
 }
 
 .terminal-body {
     flex: 1;
-    padding: 10px;
+    padding: 8px;
     overflow-y: auto;
-    font-size: 11px;
+    font-size: 9px;
     color: #00ff66;
-    line-height: 1.5;
-}
-
-/* Cyberpunk Button */
-.cyber-btn {
-    position: absolute;
-    top: 12px;
-    right: 15px;
-    background: #00ffa3;
-    color: #000;
-    border: none;
-    padding: 8px 16px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 4px;
-    box-shadow: 0 0 10px #00ffa3;
-}
-
-.cyber-btn:hover {
-    background: #00e5ff;
-    box-shadow: 0 0 15px #00e5ff;
-}
+    line-height: 1.4;
+    }
+    
