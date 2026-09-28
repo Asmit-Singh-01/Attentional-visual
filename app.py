@@ -1,143 +1,112 @@
+import time
 import numpy as np
+import plotly.express as px
 import plotly.graph_objects as go
-from plotly.subplots import make_subplots
 import streamlit as st
 
 st.set_page_config(
-    page_title="Phase Transition at N/d=1", layout="wide", page_icon="⚡"
+    page_title="Attentional Superposition Simulator",
+    layout="wide",
+    page_icon="⚡",
 )
 
-st.title(
-    "⚡ Phase Transition at N/d_head = 1.0: Query-Key Attention Superposition"
-)
+st.title("⚡ Dynamic Real-Time Superposition Mechanics")
 st.caption(
-    "IRIS National Fair 2026-2027 | Mathematical Sciences (Applied Math)"
+    "Live Simulation of Query-Key Interference & Phase Transition | IRIS Fair 2026-2027"
 )
 
-# Sidebar Control for Interactive Demo
-st.sidebar.header("🕹️ Live Interactive Controls")
-d_head = st.sidebar.select_slider("Head Bottleneck (d_head)", options=[4, 8, 16, 32])
-N_ratio = st.sidebar.slider("Normalized Load (N/d_head)", 0.2, 4.0, 1.0, 0.1)
+# Sidebar Setup
+st.sidebar.header("⚙️ Simulation Controls")
+d_head = st.sidebar.slider("Head Dimension (d_head)", 8, 64, 16, step=8)
+num_steps = st.sidebar.slider("Animation Resolution Steps", 10, 50, 20)
+run_sim = st.sidebar.button("▶️ Run Real-Time Phase Transition Simulation")
 
-# Tabbed Layout for 90-sec Presentation
-tab1, tab2, tab3 = st.tabs(
-    ["🌌 3D Polytope Geometry", "📈 Phase Transition & Softmax", "📊 Real LLM Spectrum"]
-)
+col1, col2 = st.columns(2)
 
-with tab1:
-    st.subheader("1. 3D Feature Polytope Geometry (ETF Alignment)")
-    # Generate 3D vectors representing feature directions
-    np.random.seed(42)
-    num_features = int(d_head * N_ratio)
-    vecs = np.random.randn(num_features, 3)
-    vecs = vecs / np.linalg.norm(vecs, axis=1, keepdims=True)
+with col1:
+    st.subheader("1. Real-Time Attention Interference Matrix")
+    matrix_placeholder = st.empty()
 
-    fig3d = go.Figure()
-    for i in range(num_features):
-        fig3d.add_trace(
-            go.Scatter3d(
-                x=[0, vecs[i, 0]],
-                y=[0, vecs[i, 1]],
-                z=[0, vecs[i, 2]],
+with col2:
+    st.subheader("2. Live Singular Value Decay & Rank Truncation")
+    spectrum_placeholder = st.empty()
+
+st.subheader("3. Dynamic Softmax Entropy & Cross-Talk Explosion")
+softmax_placeholder = st.empty()
+
+if run_sim or st.sidebar.checkbox("Auto-Run Live Loop", value=True):
+    # Dynamic Simulation Loop
+    n_ratios = np.linspace(0.2, 2.5, num_steps)
+
+    for ratio in n_ratios:
+        N = int(d_head * ratio)
+
+        # 1. Synthesize random feature projections
+        Q = np.random.randn(N, d_head) / np.sqrt(d_head)
+        K = np.random.randn(N, d_head) / np.sqrt(d_head)
+
+        # Raw Score Matrix
+        S = np.dot(Q, K.T)
+
+        # 2. Compute SVD for Singular Value Spectrum
+        U, s, Vh = np.linalg.svd(S)
+
+        # 3. Compute Softmax Attention Distribution
+        S_softmax = np.exp(S - np.max(S, axis=-1, keepdims=True))
+        S_softmax /= np.sum(S_softmax, axis=-1, keepdims=True)
+
+        # --- Plot 1: Dynamic Heatmap of Score Matrix ---
+        fig_mat = px.imshow(
+            S,
+            color_continuous_scale="Viridis",
+            title=f"Score Matrix Score (N={N}, d_head={d_head}) | Load N/d = {ratio:.2f}",
+            labels=dict(x="Key Index", y="Query Index", color="Attention Score"),
+        )
+        fig_mat.update_layout(
+            template="plotly_dark", height=380, margin=dict(l=10, r=10, t=40, b=10)
+        )
+        matrix_placeholder.plotly_chart(fig_mat, use_container_width=True)
+
+        # --- Plot 2: Live Singular Value Decay ---
+        fig_svd = go.Figure()
+        fig_svd.add_trace(
+            go.Scatter(
+                y=s,
                 mode="lines+markers",
-                marker=dict(size=5),
-                line=dict(width=6),
-                name=f"Feature f_{i+1}",
+                marker=dict(size=6, color="#00FFA3"),
+                line=dict(width=3),
+                name="Singular Values",
             )
         )
-
-    fig3d.update_layout(
-        scene=dict(
-            xaxis_title="Q Subspace 1",
-            yaxis_title="Q Subspace 2",
-            zaxis_title="Q Subspace 3",
-        ),
-        margin=dict(l=0, r=0, b=0, t=30),
-        height=500,
-        template="plotly_dark",
-    )
-    st.plotly_chart(fig3d, use_container_width=True)
-
-with tab2:
-    st.subheader("2. Master Curve & Softmax Divergence Paradox")
-    n_ratios = np.linspace(0.2, 4.0, 30)
-
-    # Theoretical Analytical Floor: max(0, (N-d)/N)
-    raw_error = np.maximum(0, (n_ratios - 1.0) / n_ratios)
-    kl_div = np.where(
-        n_ratios <= 1.0, 0.01 * n_ratios, 0.2 * (n_ratios**2.1)
-    )
-
-    fig_curves = make_subplots(specs=[[{"secondary_y": True}]])
-    fig_curves.add_trace(
-        go.Scatter(
-            x=n_ratios,
-            y=raw_error,
-            name="Relative Score Error (Δ_score)",
-            line=dict(color="#00FFA3", width=3),
-        ),
-        secondary_y=False,
-    )
-    fig_curves.add_trace(
-        go.Scatter(
-            x=n_ratios,
-            y=kl_div,
-            name="Softmax KL Divergence (D_KL)",
-            line=dict(color="#FF0055", width=3, dash="dash"),
-        ),
-        secondary_y=True,
-    )
-
-    fig_curves.add_vline(
-        x=1.0,
-        line_dash="dot",
-        line_color="white",
-        annotation_text="Capacity Threshold (N/d=1.0)",
-    )
-    fig_curves.update_layout(
-        template="plotly_dark",
-        height=450,
-        xaxis_title="Normalized Feature Load (N / d_head)",
-    )
-    fig_curves.update_yaxes(
-        title_text="Frobenius Error (Δ_score)", secondary_y=False
-    )
-    fig_curves.update_yaxes(
-        title_text="Post-Softmax KL Divergence", secondary_y=True
-    )
-
-    st.plotly_chart(fig_curves, use_container_width=True)
-
-with tab3:
-    st.subheader("3. Validation on EleutherAI/Pythia-70M Real Weights")
-    # Singular value spectrum emulation matching paper curves
-    ranks = np.arange(64)
-    l0 = np.exp(-ranks / 30)
-    l5 = np.where(ranks < 2, 1.0 - ranks * 0.7, 0.25 * np.exp(-ranks / 20))
-
-    fig_pythia = go.Figure()
-    fig_pythia.add_trace(
-        go.Scatter(
-            x=ranks, y=l0, mode="lines", name="Layer 0 (Head 0)", line=dict(width=2)
+        fig_svd.add_vline(
+            x=min(d_head, N) - 1,
+            line_dash="dash",
+            line_color="red",
+            annotation_text=f"Effective Rank Boundary ({min(d_head, N)})",
         )
-    )
-    fig_pythia.add_trace(
-        go.Scatter(
-            x=ranks,
-            y=l5,
-            mode="lines",
-            name="Layer 5 (Head 0) - Deep Rank Truncation",
-            line=dict(width=3, color="#FF10F0"),
+        fig_svd.update_layout(
+            template="plotly_dark",
+            height=380,
+            xaxis_title="Singular Value Index",
+            yaxis_title="Magnitude",
+            title=f"Singular Spectrum Spectrum (Rank Max = {min(N, d_head)})",
+            margin=dict(l=10, r=10, t=40, b=10),
         )
-    )
-    fig_pythia.add_vline(
-        x=64, line_dash="dash", line_color="red", annotation_text="d_head = 64"
-    )
+        spectrum_placeholder.plotly_chart(
+            fig_svd, use_container_width=True
+        )
 
-    fig_pythia.update_layout(
-        template="plotly_dark",
-        height=450,
-        xaxis_title="Singular Value Index",
-        yaxis_title="Normalized Singular Value Magnitude",
-    )
-    st.plotly_chart(fig_pythia, use_container_width=True)
+        # --- Plot 3: Softmax Distribution Interference ---
+        fig_soft = px.imshow(
+            S_softmax,
+            color_continuous_scale="magma",
+            title=f"Softmax Cross-Talk Noise Spread (N/d = {ratio:.2f})",
+        )
+        fig_soft.update_layout(
+            template="plotly_dark",
+            height=350,
+            margin=dict(l=10, r=10, t=40, b=10),
+        )
+        softmax_placeholder.plotly_chart(fig_soft, use_container_width=True)
+
+        time.sleep(0.15)  # Smooth animation feel
