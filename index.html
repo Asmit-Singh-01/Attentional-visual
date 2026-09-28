@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=landscape">
     <title>Attention Phase Transition HUD Engine</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- MathJax for High-Level Complex LaTeX Rendering -->
+    <!-- PATH UPDATED: Forces browser to reload fresh CSS, bypassing old data -->
+    <link rel="stylesheet" href="style.css?v=16">
+    <!-- MathJax for Complex LaTeX Rendering -->
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
-<body>
+<body class="fullscreen-hud">
 
     <!-- Top Header -->
     <header class="hud-header">
@@ -51,5 +52,4 @@
 
     <script src="simulation.js"></script>
 </body>
-  </html>
-  
+</html>
