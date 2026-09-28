@@ -11,13 +11,13 @@ function resizeCanvas() {
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
-// Architectural Nodes Positions
+// Architectural Nodes Positions (Geometry shifted lower for mobile landscape height)
 const nodes = [
-    { name: "Input Token Matrix", x: 0.15, y: 0.35 },
-    { name: "QK Multi-Head Proj", x: 0.35, y: 0.25 },
-    { name: "Softmax Noise Engine", x: 0.55, y: 0.45 },
-    { name: "Pythia-70M SVD Rank", x: 0.75, y: 0.25 },
-    { name: "ETF Geometry Fix", x: 0.90, y: 0.35 }
+    { name: "Input Token Matrix", x: 0.15, y: 0.50 },
+    { name: "QK Multi-Head Proj", x: 0.35, y: 0.40 },
+    { name: "Softmax Noise Engine", x: 0.55, y: 0.60 },
+    { name: "Pythia-70M SVD Rank", x: 0.75, y: 0.40 },
+    { name: "ETF Geometry Fix", x: 0.90, y: 0.50 }
 ];
 
 // Stages Configuration (Total Duration = Exact 40 Seconds)
@@ -26,65 +26,65 @@ const stages = [
         title: "🟢 STAGE 1: High-Dim Input Token Vector Ingestion",
         color: "#00FFA3",
         eq: "\\[ S_{ij} = \\frac{\\mathbf{q}_i^\\top \\mathbf{k}_j}{\\sqrt{d_{head}}}, \\quad \\frac{N}{d_{head}} = 0.5 \\le 1.0 \\]",
-        metrics: "> Frobenius Error: 0.0012 | Null Space: 0 | Capacity Load: 50% [STABLE]",
+        metrics: "> Frobenius Error: 0.0012 | Capacity Load: 50% [STABLE]",
         activeNode: 0,
         logs: [
-            "[INFO] Parsing token sequence embeddings...",
-            "[MATH] Constructing Q and K projection spaces...",
-            "[METRIC] Orthogonality metric stable: ||Q*Q^T - I|| = 0.0012",
-            "[STATUS] Subspace alignment within noise bounds."
+            "[INFO] Parsing sequence embeddings...",
+            "[MATH] Constructing Q, K spaces...",
+            "[METRIC] Orthogonality metric stable.",
+            "[STATUS] Subspace alignment safe."
         ]
     },
     {
-        title: "🟡 STAGE 2: Query-Key Alignment & Capacity Limit",
+        title: "🟡 STAGE 2: Query-Key Subspace Capacity Limit",
         color: "#FFD700",
         eq: "\\[ \\text{rank}(\\mathbf{W}_Q\\mathbf{W}_K^\\top) = d_{head}, \\quad \\frac{N}{d_{head}} = 1.0 \\]",
-        metrics: "> Critical Load Boundary Reached | Spectral Leakage: 2.1%",
+        metrics: "> Load Boundary Reached | Critical Threshold",
         activeNode: 1,
         logs: [
-            "[WARN] Load ratio approaching critical threshold N/d_head = 1.0",
-            "[CALC] Computing singular values SVD(W_Q * W_K^T)...",
-            "[SPECTRUM] Tail eigenvalues begin to flatten...",
-            "[ALERT] Phase Transition boundary localized."
+            "[WARN] Approaching N/d_head = 1.0",
+            "[CALC] Computing singular values SVD...",
+            "[SPECTRUM] Tail eigenvalues begin to flatten.",
+            "[ALERT] Transition boundary localized."
         ]
     },
     {
-        title: "🔴 STAGE 3: Softmax Exponential Noise Explosion",
+        title: "🔴 STAGE 3: Softmax Exponential Interference Chaos",
         color: "#FF0055",
-        eq: "\\[ A_{ij} = \\frac{\\exp(S_{ij})}{\\sum_k \\exp(S_{ik})}, \\quad \\mathcal{D}_{KL}(A \\| A_{true}) \\sim \\mathcal{O}\\left(e^{\\gamma (N - d_{head})}\\right) \\]",
-        metrics: "> Cross-Talk Noise: +340% | Entropy: 5.84 nats | COLLAPSED",
+        eq: "\\[ \\mathcal{D}_{KL}(A \\| A_{true}) \\sim \\mathcal{O}\\left(e^{\\gamma (N - d_{head})}\\right) \\]",
+        metrics: "> Cross-Talk Noise Amplified | Entropy EXPLOSION",
         activeNode: 2,
         logs: [
-            "[CRITICAL] Load ratio exceeded! N/d_head = 1.85 > 1.0",
-            "[MATH ERROR] Softmax exponential amplification triggered!",
-            "[ENTROPY] Cross-talk noise exploding: H(A) = 5.84 nats",
-            "[SYSTEM] Context window lost. Hallucination mode active."
+            "[CRITICAL] Ratio N/d_head = 1.85 > 1.0",
+            "[MATH ERROR] Softmax explosion triggered!",
+            "[ENTROPY] Cross-talk noise exploding.",
+            "[SYSTEM] Context window lost."
         ]
     },
     {
-        title: "🟣 STAGE 4: Pythia-70M Real Weight SVD Rank Truncation",
+        title: "🟣 STAGE 4: Pythia-70M SVD Rank Truncation Proof",
         color: "#9900FF",
-        eq: "\\[ \\mathbf{A} = \\mathbf{U} \\mathbf{\\Sigma} \\mathbf{V}^\\top, \\quad \\sigma_i \\to 0 \\quad \\forall i > d_{head} \\]",
-        metrics: "> Effective Rank: 13/16 | Singular Value Floor Hit | Truncated",
+        eq: "\\[ \\mathbf{A} = \\mathbf{U} \\mathbf{\\Sigma} \\mathbf{V}^\\top, \\quad \\sigma_i \\to 0 \\text{ for } i > d_{head} \\]",
+        metrics: "> Effective Rank: 13/16 | Singular Floor Hit | Truncated",
         activeNode: 3,
         logs: [
-            "[INSPECT] Extracting weights from EleutherAI/Pythia-70M Layer 8...",
-            "[SVD] Decomposing attention head matrix...",
-            "[RESULT] Singular values dropped to exact zero line.",
-            "[PROOF] LayerNorm and L2 decay failed to shift geometric bound."
+            "[INSPECT] EleutherAI/Pythia-70M Layer 8...",
+            "[SVD] Decomposing head matrix...",
+            "[RESULT] Singular values hit zero line.",
+            "[PROOF] Standard tricks cannot shift bound."
         ]
     },
     {
-        title: "⚡ STAGE 5: ETF-Aware Initialization Applied — Structural Recovery",
+        title: "⚡ STAGE 5: ETF-Aware Initialization & Context Recovery",
         color: "#00E5FF",
-        eq: "\\[ \\mathbf{M}^* = \\sqrt{\\frac{K}{K-1}} \\left( \\mathbf{I}_K - \\frac{1}{K}\\mathbf{1}\\mathbf{1}^\\top \\right), \\quad \\cos\\theta_{ij} = -\\frac{1}{N-1} \\]",
-        metrics: "> Reconstruction Fidelity: 99.89% | Zero Interference | Context Restored",
+        eq: "\\[ \\mathbf{M}^* = \\sqrt{\\frac{K}{K-1}} \\left( \\mathbf{I}_K - \\frac{1}{K}\\mathbf{1}\\mathbf{1}^\\top \\right) \\]",
+        metrics: "> Reconstruction Fidelity: 99.89% | Zero Interference",
         activeNode: 4,
         logs: [
-            "[ENG] Injecting ETF Polytope Vector Initialization...",
-            "[MATH] Maximizing pairwise feature angles theta_ij...",
-            "[RECOVERY] Dynamic Head Allocation rescales d_h(t)...",
-            "[SUCCESS] Context window restored with ZERO information loss!"
+            "[ENG] Injecting ETF Initialization...",
+            "[MATH] Maximizing feature pairwise angles...",
+            "[RECOVERY] Dynamic Head Allocation rescales...",
+            "[SUCCESS] Window restored. ZERO context loss."
         ]
     }
 ];
@@ -94,7 +94,7 @@ let currentStage = 0;
 let progress = 0; // 0 to 1 packet movement
 let frameCount = 0;
 
-// Render Loop (Runs at smooth 60 FPS GPU Canvas)
+// Render Loop (60 FPS GPU Canvas)
 function drawLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -126,10 +126,10 @@ function drawLoop() {
         ctx.fill();
         ctx.stroke();
 
-        // Node Title
+        // Node Title (Text positioned below node)
         ctx.fillStyle = "#ffffff";
         ctx.font = "12px Courier New";
-        ctx.fillText(node.name, nx - 40, ny - 25);
+        ctx.fillText(node.name, nx - 40, ny + 35); // Text pushed DOWN
     });
 
     // 3. Draw Live Moving Packet Trajectory (Point A to B)
@@ -150,17 +150,15 @@ function drawLoop() {
         ctx.shadowBlur = 0; // Reset
     }
 
-    // 4. Draw Peak-Complexity Live Waveform at Bottom
+    // 4. Draw Peak-Complexity Live Waveform at Bottom (Geometry shifted down)
     ctx.strokeStyle = stages[currentStage].color;
     ctx.lineWidth = 2;
     ctx.beginPath();
     for (let x = 0; x < w; x += 5) {
-        let waveY = h * 0.75;
+        let waveY = h * 0.85; // Signal line PUSHED DOWN to bottom
         if (currentStage === 2) {
-            // High Entropy Chaos
             waveY += Math.sin(x * 0.1 + frameCount * 0.2) * 25 * (Math.random() - 0.5);
         } else {
-            // Smooth Controlled Signal
             waveY += Math.sin(x * 0.02 + frameCount * 0.05) * 12;
         }
         if (x === 0) ctx.moveTo(x, waveY);
@@ -209,7 +207,7 @@ startBtn.addEventListener("click", () => {
             setTimeout(() => addTermLog(log), i * 1500);
         });
 
-        // Packet Travel Animation Duration (8 seconds per stage = 40s total)
+        // Packet Travel Animation Duration (Exact 8 Seconds per stage, 40s total)
         let startTime = performance.now();
         let stageDuration = 8000; // 8 Seconds per stage
 
@@ -231,4 +229,4 @@ startBtn.addEventListener("click", () => {
 
 // Start Canvas Draw
 drawLoop();
-          
+            
